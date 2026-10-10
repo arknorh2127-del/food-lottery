@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="全国美食与饮品随机抽奖，免费免登录，自定义菜单保存在本机。"><title>吃什么 + 喝什么 · 全国美食抽奖 3.0</title></head><body>
+<div id="nation-food3" class="w-full">
+<style>
+:root{--viz-text:#253440;--viz-muted:#64717b;--viz-card:#fff;--viz-panel:#f6f7f8;--viz-border:#dde2e6}body{margin:0;background:#f1ede7;padding:32px 16px}#nation-food3{max-width:860px;margin:auto}button:focus-visible,summary:focus-visible{outline:3px solid #007e94;outline-offset:3px}#nation-food3 button{min-height:40px}@media(max-width:450px){body{padding:12px 8px}}
+
+#nation-food3{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--viz-text);font-size:13px}
+#nation-food3 *{box-sizing:border-box}
+#nation-food3 button,#nation-food3 input{font:inherit}
+#nation-food3 button{cursor:pointer;transition:background .15s,transform .15s}
+#nation-food3 button:active:not(:disabled){transform:scale(.97)}
+#nation-food3 button:disabled{opacity:.43;cursor:not-allowed}
+#nation-food3 .shell{background:var(--viz-card);border:1px solid var(--viz-border);border-radius:22px;overflow:hidden}
+#nation-food3 .hero{padding:25px 21px 21px;background:linear-gradient(115deg,#303039,#202a34);color:white;position:relative;overflow:hidden}
+#nation-food3 .eyebrow{font-size:10px;font-weight:850;letter-spacing:2.3px;color:#ffbc99;position:relative;z-index:1}
+#nation-food3 .hero h2{font-size:clamp(26px,5vw,35px);font-weight:900;color:white;letter-spacing:-1px;line-height:1.2;margin:9px 0 10px;position:relative;z-index:1}
+#nation-food3 .hero p{color:#d0d7df;font-size:12px;margin:0;position:relative;z-index:1}
+#nation-food3 .stats{display:flex;gap:9px;margin-top:17px;position:relative;z-index:1;flex-wrap:wrap}
+#nation-food3 .stat{background:#ffffff16;border:1px solid #ffffff20;border-radius:9px;padding:8px 11px;font-size:11px;color:#fff}
+#nation-food3 .stat strong{font-weight:850;color:#ffcaac}
+#nation-food3 .main{padding:18px}
+#nation-food3 .heading{font-weight:850;font-size:13px;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+#nation-food3 .muted{font-size:11px;font-weight:500;color:var(--viz-muted)}
+#nation-food3 .tabs{display:flex;gap:7px;flex-wrap:wrap}
+#nation-food3 .chip{background:var(--viz-panel);color:var(--viz-text);border:1px solid var(--viz-border);padding:8px 10px;border-radius:9px;font-size:11px;font-weight:700;line-height:1.3}
+#nation-food3 .chip.active{background:#293947;border-color:#293947;color:white}
+#nation-food3 .chip small{font-size:10px;opacity:.65;font-weight:500}
+#nation-food3 .zones{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 17px;padding:11px;border:1px solid var(--viz-border);border-radius:12px;background:var(--viz-panel)}
+#nation-food3 .zone{border:1px solid var(--viz-border);background:var(--viz-card);color:var(--viz-text);border-radius:8px;padding:7px 9px;font-size:11px}
+#nation-food3 .zone.active{background:#ed7457;color:white;border-color:#ed7457;font-weight:750}
+#nation-food3 .zonehint{font-size:11px;color:var(--viz-muted);line-height:1.5}
+#nation-food3 .cards{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+#nation-food3 .result{border-radius:16px;padding:13px;min-height:235px;display:flex;flex-direction:column}
+#nation-food3 .food{background:#fff0e7;color:#683b29;border:1px solid #f2d8c7}
+#nation-food3 .drink{background:#e7f4ec;color:#265b4b;border:1px solid #cbe4d5}
+#nation-food3 .top{display:flex;align-items:center;justify-content:space-between;gap:3px}
+#nation-food3 .top span{font-size:10px;font-weight:850;letter-spacing:.8px;opacity:.7}
+#nation-food3 .lock{font-size:10px;border:1px solid currentColor;color:inherit;background:transparent;border-radius:7px;padding:5px 7px;white-space:nowrap}
+#nation-food3 .lock.pinned{background:#ffffffaa;font-weight:850}
+#nation-food3 .emoji{text-align:center;font-size:51px;line-height:1.2;margin:22px 0 10px}
+#nation-food3 .resultname{text-align:center;font-size:clamp(17px,3.6vw,22px);line-height:1.35;font-weight:850;letter-spacing:-.5px;min-height:48px;display:flex;justify-content:center;align-items:center;overflow-wrap:anywhere}
+#nation-food3 .origin{text-align:center;font-size:11px;opacity:.72;margin-top:6px}
+#nation-food3 .cardbottom{margin-top:auto;padding-top:13px;display:flex;align-items:center;justify-content:center}
+#nation-food3 .ban{background:#ffffff8a;border:1px solid #00000012;border-radius:7px;font-size:10px;color:inherit;padding:6px 9px}
+#nation-food3 .rolling .emoji{animation:nf-bounce .13s infinite alternate}
+#nation-food3 .rolling .resultname{animation:nf-blink .1s infinite alternate}
+@keyframes nf-bounce{from{transform:translateY(-5px) rotate(-4deg)}to{transform:translateY(5px) rotate(4deg)}}
+@keyframes nf-blink{from{opacity:.45}to{opacity:1}}
+#nation-food3 .primary{display:block;width:100%;background:#ec7456;color:white;border:0;border-radius:12px;padding:16px;font-size:15px;font-weight:900;margin-top:13px;box-shadow:0 4px 0 #b95238}
+#nation-food3 .secondary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:13px}
+#nation-food3 .secondary button{padding:11px 5px;background:var(--viz-panel);border:1px solid var(--viz-border);border-radius:9px;color:var(--viz-text);font-size:11px;font-weight:750;line-height:1.4}
+#nation-food3 .explore{margin-top:10px;width:100%;border:1px dashed #dd947d;border-radius:10px;background:var(--viz-panel);color:var(--viz-text);padding:12px;font-size:12px;font-weight:750}
+#nation-food3 .status{text-align:center;color:var(--viz-muted);font-size:12px;line-height:1.65;min-height:22px;margin-top:15px}
+#nation-food3 .divider{border:0;border-top:1px dashed var(--viz-border);margin:21px 0 16px}
+#nation-food3 .history{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+#nation-food3 .historyitem{background:var(--viz-panel);border:1px solid var(--viz-border);border-radius:8px;padding:8px 10px;font-size:11px;line-height:1.45;color:var(--viz-text)}
+#nation-food3 .settings{border:1px solid var(--viz-border);border-radius:12px;margin-top:17px;overflow:hidden}
+#nation-food3 .settings summary{cursor:pointer;background:var(--viz-panel);padding:14px;font-weight:750;font-size:12px;list-style:none}
+#nation-food3 .settings summary::-webkit-details-marker{display:none}
+#nation-food3 .settingsbody{padding:14px}
+#nation-food3 .settingsbody p{font-size:11px;color:var(--viz-muted);margin:0 0 12px;line-height:1.5}
+#nation-food3 .field{display:flex;gap:7px;margin-bottom:10px}
+#nation-food3 input{min-width:0;flex:1;border:1px solid var(--viz-border);border-radius:9px;background:var(--viz-card);color:var(--viz-text);padding:10px;font-size:12px;outline:none}
+#nation-food3 input:focus{border-color:#ed7457}
+#nation-food3 .addbtn{border:0;border-radius:9px;padding:10px 12px;background:#2f3c48;color:white;font-size:11px;font-weight:750;white-space:nowrap}
+#nation-food3 .manage{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+#nation-food3 .manage button{font-size:11px;background:var(--viz-panel);border:1px solid var(--viz-border);padding:8px 11px;border-radius:8px;color:var(--viz-text)}
+#nation-food3 .customlist{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+#nation-food3 .customlist button{border:1px solid var(--viz-border);color:var(--viz-text);border-radius:7px;background:var(--viz-panel);font-size:11px;padding:6px 8px}
+#nation-food3 .footer{text-align:center;margin-top:14px;color:var(--viz-muted);font-size:10px}
+@media(max-width:450px){
+#nation-food3 .hero{padding:22px 17px}
+#nation-food3 .main{padding:12px}
+#nation-food3 .cards{gap:8px}
+#nation-food3 .result{padding:10px 8px;min-height:218px}
+#nation-food3 .emoji{font-size:43px;margin:23px 0 8px}
+#nation-food3 .resultname{font-size:18px;min-height:48px}
+#nation-food3 .lock{font-size:10px;padding:5px}
+#nation-food3 .secondary{gap:5px}
+#nation-food3 .secondary button{font-size:10px;padding:10px 3px}
+}
+@media(prefers-reduced-motion:reduce){#nation-food3 .rolling .emoji,#nation-food3 .rolling .resultname{animation:none}}
+</style>
+<div class="shell">
+  <div class="hero">
+    <div class="eyebrow">FOOD LOTTERY / EDITION 03</div>
+    <h2>今天吃什么？<br>喝什么？🎲</h2>
+    <p>全国各地的美味，都在你的随机菜单里。</p>
+    <div class="stats">
+      <div class="stat"><strong id="f3-totalfood">400+</strong> 道美食</div>
+      <div class="stat"><strong id="f3-totalzone">40+</strong> 个菜系分类</div>
+      <div class="stat"><strong id="f3-totaldrink">40+</strong> 种饮品</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="heading"><span>① 选择美食范围</span><span class="muted" id="f3-currentcount">全部美食</span></div>
+    <div class="tabs" id="f3-groups"></div>
+    <div class="zones" id="f3-zones"></div>
+    <div class="cards">
+      <div class="result food" id="f3-foodcard">
+        <div class="top"><span>🍽️ 吃什么</span><button type="button" class="lock" id="f3-foodlock">🔓 锁定</button></div>
+        <div class="emoji" id="f3-foodemoji">🍽️</div>
+        <div class="resultname" id="f3-foodname">等待开奖</div>
+        <div class="origin" id="f3-foodorigin">今天的菜单交给命运</div>
+        <div class="cardbottom"><button type="button" class="ban" id="f3-foodban">不喜欢 · 排除</button></div>
+      </div>
+      <div class="result drink" id="f3-drinkcard">
+        <div class="top"><span>🥤 喝什么</span><button type="button" class="lock" id="f3-drinklock">🔓 锁定</button></div>
+        <div class="emoji" id="f3-drinkemoji">🥤</div>
+        <div class="resultname" id="f3-drinkname">等待开奖</div>
+        <div class="origin" id="f3-drinkorigin">搭配一杯快乐水</div>
+        <div class="cardbottom"><button type="button" class="ban" id="f3-drinkban">不喜欢 · 排除</button></div>
+      </div>
+    </div>
+    <button class="primary" id="f3-draw" type="button">🎲 一键抽取吃喝套餐</button>
+    <div class="secondary">
+      <button type="button" id="f3-drawfood">↻ 重抽吃的</button>
+      <button type="button" id="f3-drawdrink">↻ 重抽喝的</button>
+      <button type="button" id="f3-resetlocks">🔓 全部解锁</button>
+    </div>
+    <button class="explore" type="button" id="f3-explore">🧭 地方美食盲盒 · 随机挑战一个地方菜系</button>
+    <div class="status" id="f3-status" role="status" aria-live="polite">选择分类，然后点击抽奖！</div>
+    <hr class="divider"/>
+    <div class="heading"><span>🧾 最近的开奖记录</span><span class="muted" id="f3-count">已抽 0 次</span></div>
+    <div class="history" id="f3-history"><span class="muted">还没有开奖记录</span></div>
+    <details class="settings">
+      <summary>⚙️ 自定义菜单 / 管理不喜欢的食物 ⌄</summary>
+      <div class="settingsbody">
+        <p>加入自己常点的外卖或附近餐厅。新添加的餐食会同时进入「全部」和「我的菜单」分类。</p>
+        <div class="field"><input id="f3-addfood" maxlength="35" placeholder="添加餐食，如：楼下的猪脚饭" aria-label="添加餐食"/><button type="button" class="addbtn" id="f3-savefood">加入美食池</button></div>
+        <div class="field"><input id="f3-adddrink" maxlength="35" placeholder="添加饮品，如：苹果单丛" aria-label="添加饮品"/><button type="button" class="addbtn" id="f3-savedrink">加入饮品池</button></div>
+        <div class="muted" id="f3-customstat">暂无自定义餐食</div>
+        <div class="customlist" id="f3-customlist"></div>
+        <div class="manage">
+          <button type="button" id="f3-unban">恢复全部被排除的食物</button>
+          <button type="button" id="f3-reset">恢复初始菜单</button>
+        </div>
+      </div>
+    </details>
+    <div class="footer">随机抽取 · 分类筛选 · 锁定结果 · 自定义菜单</div>
+  </div>
+</div>
+<script src="app.js"></script></div></body></html>
